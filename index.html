@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Fun</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 22px);
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+            min-height: 25px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .tab-button.active {
+            border-bottom: 2px solid #007bff;
+            color: #007bff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .info {
+            text-align: left;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Fun</h1>
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'factorial')">Factorial Calculator</button>
+            <button class="tab-button" onclick="openTab(event, 'prime')">Prime Number Checker</button>
+        </div>
+
+        <div id="factorial" class="tab-content active">
+            <h2>Factorial Calculator</h2>
+            <p>Enter a number to calculate its factorial.</p>
+            <input type="number" id="factorialInput" placeholder="Enter a non-negative integer">
+            <button onclick="calculateFactorial()">Calculate</button>
+            <p class="result" id="factorialResult"></p>
+            <div class="info">
+                <strong>What is a factorial?</strong>
+                <p>The factorial of a non-negative integer 'n', denoted by n!, is the product of all positive integers less than or equal to n. For example, 5! = 5 × 4 × 3 × 2 × 1 = 120. The factorial of 0 is defined as 1.</p>
+            </div>
+        </div>
+
+        <div id="prime" class="tab-content">
+            <h2>Prime Number Checker</h2>
+            <p>Enter a number to check if it's a prime number.</p>
+            <input type="number" id="primeInput" placeholder="Enter a positive integer">
+            <button onclick="checkPrime()">Check</button>
+            <p class="result" id="primeResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function calculateFactorial() {
+            const numberInput = document.getElementById('factorialInput');
+            const resultElement = document.getElementById('factorialResult');
+            const number = parseInt(numberInput.value);
+
+            if (isNaN(number) || number < 0) {
+                resultElement.textContent = 'Please enter a non-negative integer.';
+                return;
+            }
+            if (number > 20) {
+                resultElement.textContent = 'Please enter a number less than or equal to 20 for performance reasons.';
+                return;
+            }
+
+            let factorial = 1;
+            for (let i = 2; i <= number; i++) {
+                factorial *= i;
+            }
+            resultElement.textContent = `The factorial of ${number} is ${factorial}.`;
+        }
+
+        function checkPrime() {
+            const numberInput = document.getElementById('primeInput');
+            const resultElement = document.getElementById('primeResult');
+            const number = parseInt(numberInput.value);
+
+            if (isNaN(number) || number <= 1) {
+                resultElement.textContent = 'Please enter an integer greater than 1.';
+                return;
+            }
+
+            let isPrime = true;
+            for (let i = 2; i <= Math.sqrt(number); i++) {
+                if (number % i === 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+
+            if (isPrime) {
+                resultElement.textContent = `${number} is a prime number.`;
+            } else {
+                resultElement.textContent = `${number} is not a prime number.`;
+            }
+        }
+
+        // Set default tab
+        document.getElementsByClassName('tab-button')[0].click();
+    </script>
+</body>
+</html>
