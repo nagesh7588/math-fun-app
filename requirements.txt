@@ -1,1 +1,2 @@
 Flask==2.3.3
+# Python web framework for serving static HTML
